@@ -29,7 +29,7 @@ app.put('/todos/:id/complete',(request,response)=>{
     //get the id parameter from the request URL
      const findTodoById = (todos,id) =>{
             for( let i =0;i<todos.length;i++){
-                if (todos[i].id === id){
+                if (todos[i].id === parseInt(id)){
                     return i;
             }
         }
