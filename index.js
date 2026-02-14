@@ -24,7 +24,7 @@ app.get('/todos',(request,response)=>{
 
 })
 
-app.put('/todos/:id/complete',(request,response)=>{
+app.put('/todos/:id/completed',(request,response)=>{
     const id = request.params.id;
     //get the id parameter from the request URL
      const findTodoById = (todos,id) =>{
@@ -43,14 +43,20 @@ app.put('/todos/:id/complete',(request,response)=>{
             //if there is an error reading the file, send 500 status code with error message
         }
         
-        const todos = JSON.parse(data);
+        let todos = JSON.parse(data);
         const todoIndex = findTodoById(todos,id);
+
         if(todoIndex === -1){
             return response.status(404).send('Todo not found');
 
         }
 
-        return response.json(todos[todoIndex]);
+        todos[todoIndex].completed = true;
+        fs.writeFile('./store/todos.json',JSON.stringify(todos),() =>{
+            return response.json({'status':'ok'})
+
+        })
+       
 
 
     })
