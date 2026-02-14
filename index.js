@@ -24,7 +24,24 @@ app.get('/todos',(request,response)=>{
 
 })
 
-
+app.put('/todos/:id/complete',(request,response)=>{
+    const id = request.params.id;
+    //get the id parameter from the request URL
+    fs.readFile('./store/todos.json','utf-8',(err,data)=>{
+        if(err){
+            return response.status(500).send('Error, reading todos');
+            //if there is an error reading the file, send 500 status code with error message
+        }
+        const todos = JSON.parse(data);
+        const findTodoById = (todo,id) =>{
+            for( let i =0;i<todos.length;i++){
+                if (todos[i].id === id){
+                    return i;
+            }
+            return -1;
+        }
+    )
+})
 
 
 app.listen(3000,()=>{
